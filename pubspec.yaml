@@ -8,6 +8,12 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  pointycastle: ^3.9.1
+  http: ^1.2.2
+  bip32: ^2.0.0
+  crypto: ^3.0.6
+  bech32: ^0.2.2
+  base_x: ^2.0.1
   # path: ^1.8.0
 
 dev_dependencies:

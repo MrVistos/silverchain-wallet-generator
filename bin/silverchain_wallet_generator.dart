@@ -27,22 +27,6 @@ class WalletService {
     return publicKey;
   }
 
-  // Convert the private key to WIF format (used for address generation)
-  String _privateKeyToWif(Uint8List privateKey) {
-    final prefix = Uint8List.fromList([0x80]); // Prefix for mainnet private key (0x80 for Bitcoin mainnet)
-    final compressedKey = Uint8List.fromList(prefix + privateKey.toList() + [0x01]); // Add the compression flag
-    final checksum = _calculateChecksum(compressedKey);
-    
-    return base58.encode(Uint8List.fromList(compressedKey + checksum)); // Return the WIF with checksum
-  }
-
-  // Calculate checksum for WIF
-  Uint8List _calculateChecksum(Uint8List data) {
-    final sha256_1 = sha256.convert(data).bytes;
-    final sha256_2 = sha256.convert(Uint8List.fromList(sha256_1)).bytes;
-    return Uint8List.fromList(sha256_2.sublist(0, 4)); // Get the first 4 bytes of the second SHA256 hash
-  }
-
   // Generate public address from private key
   String generateAddressFromPrivateKey(Uint8List privateKey) {
     try {
@@ -83,15 +67,6 @@ class WalletService {
     }
     if (pad && bits > 0) ret.add((acc << (to - bits)) & maxv);
     return ret;
-  }
-
-  // Check if two byte lists are equal
-  bool _listEquals(List<int> a, List<int> b) {
-    if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
   }
 }
 
